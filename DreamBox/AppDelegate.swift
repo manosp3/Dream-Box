@@ -91,3 +91,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+
+
+// ftiaksame afto to shortcut gia otan theloume na kalesoume mia methodo mesa sto appdelegate, apla vazo ad.(onoma tis klasis pou thelo)
+let ad = UIApplication.shared.delegate as! AppDelegate
+let context = ad.persistentContainer.viewContext
+
+
