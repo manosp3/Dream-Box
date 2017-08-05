@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DF925C891F35D95000F1B4EE /* ItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF925C881F35D95000F1B4EE /* ItemCell.swift */; };
 		DFDF57431F34EB0300E0ADF2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDF57421F34EB0300E0ADF2 /* AppDelegate.swift */; };
 		DFDF57451F34EB0300E0ADF2 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDF57441F34EB0300E0ADF2 /* MainVC.swift */; };
 		DFDF57481F34EB0300E0ADF2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DFDF57461F34EB0300E0ADF2 /* Main.storyboard */; };
@@ -25,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DF925C881F35D95000F1B4EE /* ItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemCell.swift; sourceTree = "<group>"; };
 		DFDF573F1F34EB0300E0ADF2 /* DreamBox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DreamBox.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFDF57421F34EB0300E0ADF2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DFDF57441F34EB0300E0ADF2 /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
@@ -55,6 +57,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DF925C8A1F35DAA600F1B4EE /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				DFDF57441F34EB0300E0ADF2 /* MainVC.swift */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
 		DFDF57361F34EB0300E0ADF2 = {
 			isa = PBXGroup;
 			children = (
@@ -74,10 +84,10 @@
 		DFDF57411F34EB0300E0ADF2 /* DreamBox */ = {
 			isa = PBXGroup;
 			children = (
+				DF925C8A1F35DAA600F1B4EE /* Controller */,
 				DFDF57691F34F63E00E0ADF2 /* View */,
 				DFDF57671F34EE8C00E0ADF2 /* Model */,
 				DFDF57421F34EB0300E0ADF2 /* AppDelegate.swift */,
-				DFDF57441F34EB0300E0ADF2 /* MainVC.swift */,
 				DFDF57461F34EB0300E0ADF2 /* Main.storyboard */,
 				DFDF574C1F34EB0300E0ADF2 /* Assets.xcassets */,
 				DFDF574E1F34EB0300E0ADF2 /* LaunchScreen.storyboard */,
@@ -114,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				DFDF576A1F34F66400E0ADF2 /* MaterialView.swift */,
+				DF925C881F35D95000F1B4EE /* ItemCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -191,6 +202,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DF925C891F35D95000F1B4EE /* ItemCell.swift in Sources */,
 				DFDF57641F34EE8500E0ADF2 /* Image+CoreDataProperties.swift in Sources */,
 				DFDF57621F34EE8500E0ADF2 /* Item+CoreDataProperties.swift in Sources */,
 				DFDF57611F34EE8500E0ADF2 /* Item+CoreDataClass.swift in Sources */,
@@ -366,6 +378,7 @@
 				DFDF57561F34EB0300E0ADF2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
