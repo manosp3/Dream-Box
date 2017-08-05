@@ -106,9 +106,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
             }
             break
         }
-    }
-    //tesfjankljfnjeksfa
-    
+    }    
 
 }
 
