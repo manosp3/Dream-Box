@@ -112,6 +112,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
         
         let controller = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
         
+        //SOS gia na ksekinisei na kanei ta update mas i efarmogi mas me to neo nontent
         controller.delegate = self
         
         self.controller = controller
@@ -136,7 +137,9 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
 //        
 //    }
     
+    
     //this when the tableview is ready to update this will start to listen for any changes and will handle it for you
+    //otan kanoume allages dld tha kanei update o controller mas oste na tis doume stin efarmogi mas
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
     }
