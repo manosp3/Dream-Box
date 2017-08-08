@@ -13,34 +13,82 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
     
     //fetchedresultcontroller: collects information about the results without the need to fetch all the results
     
-    
     @IBOutlet weak var tableView: UITableView!
-    
-    
     @IBOutlet weak var segment: UISegmentedControl!
     
-
+    var controller: NSFetchedResultsController<Item>!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        var controller: NSFetchedResultsController<Item>!
         
         tableView.delegate = self
         tableView.dataSource = self
         
-
+        //generateTestData()
+        attemptFetch()
+        
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell", for: indexPath) as! ItemCell
+        configureCell(cell: cell, indexPath: indexPath as NSIndexPath)
+        return cell
     }
-
+    
+    func configureCell(cell: ItemCell, indexPath: NSIndexPath) {
+        //update cell
+        let item = controller.object(at: indexPath as IndexPath)
+        cell.configureCell(item: item)
+        
+    }
+    
+    //transfers the item from mainvc to itemsdetailsvc
+    //everytime someone clicks something in my tableview this func is called
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if let objs = controller.fetchedObjects , objs.count > 0 {
+            
+            let item = objs[indexPath.row]
+            performSegue(withIdentifier: "ItemDetailsVC", sender: item)
+        }
+    }
+    
+    //prepei na iparxei afto PRIN tin apopano functin, diloni to segue!
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ItemDetailsVC" {
+            if let destination = segue.destination as? ItemDetailsVC {
+                if let item = sender as? Item {
+                    destination.itemToEdit = item
+                }
+            }
+        }
+        
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        //grabing the sections out of controller
+        if let sections = controller.sections {
+            
+            let sectionInfo = sections[section]
+            return sectionInfo.numberOfObjects
+        }
+        
         return 0
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
+        
+        if let sections = controller.sections {
+            return sections.count
+        }
+        
         return 0
+    }
+    
+    // mas vazei to height tou kathe row sto cell mas na einai monima 150(des to kai sto storyboard
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 150
     }
     
     func attemptFetch() {
@@ -48,37 +96,65 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
         let fetchRequest: NSFetchRequest<Item> = Item.fetchRequest()
         //how to sort the results
         let dateSort = NSSortDescriptor(key: "created", ascending: false)
-        fetchRequest.sortDescriptors = [dateSort]
+        let priceSort = NSSortDescriptor(key: "price", ascending: true)
+        let titleSort = NSSortDescriptor(key: "title", ascending: true)
+        
+        if segment.selectedSegmentIndex == 0 {
+            
+            fetchRequest.sortDescriptors = [dateSort]
+            
+        } else if segment.selectedSegmentIndex == 1 {
+            
+            fetchRequest.sortDescriptors = [priceSort]
+            
+        } else if segment.selectedSegmentIndex == 2 {
+            
+            fetchRequest.sortDescriptors = [titleSort]
+        }
+        
         
         let controller = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        
+        //SOS gia na ksekinisei na kanei ta update mas i efarmogi mas me to neo content
+        controller.delegate = self
+        
+        self.controller = controller
         //perform the actual fetch
         do {
             
             try controller.performFetch()
+            
         } catch {
             
             let error = error as NSError
-            print(error)
-        
+            print("\(error)")
+            
         }
+        
     }
     
+    //afto edo einai to koumpei gia otan patisi allo segment na ginete to sort, an de kanei reload de ginete tpt
+    @IBAction func segmentChange(_ sender: Any) {
+        
+        attemptFetch()
+        tableView.reloadData()
+        
+    }
+    
+    
     //this when the tableview is ready to update this will start to listen for any changes and will handle it for you
+    //otan kanoume allages dld tha kanei update o controller mas oste na tis doume stin efarmogi mas
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        
-        
         tableView.beginUpdates()
-        
     }
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        
         tableView.endUpdates()
-    
     }
     
     //this is gonna be listening for when we are making a change (insertion,deletion,move,update etc.)
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        
         switch(type) {
             
         case.insert:
@@ -87,14 +163,14 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
             }
             break
         case.delete:
-            if let indexPath = newIndexPath {
+            if let indexPath = indexPath {
                 tableView.deleteRows(at: [indexPath], with: .fade)
             }
             break
         case.update:
             if let indexPath = indexPath {
                 let cell = tableView.cellForRow(at: indexPath) as! ItemCell
-                //update the cell data
+                configureCell(cell: cell, indexPath: indexPath as NSIndexPath)
             }
             break
         case.move:
@@ -104,22 +180,34 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
             if let indexPath = newIndexPath {
                 tableView.insertRows(at: [indexPath], with: .fade)
             }
-            break        
+            break
+            
         }
     }
     
+    func generateTestData() {
+        
+        let item = Item(context: context)
+        item.title = "MacBook Pro"
+        item.price = 1800
+        item.details = "I can't wait until the September event, I hope they release new MPBs"
+        
+        let item2 = Item(context: context)
+        item2.title = "Bose Headphones"
+        item2.price = 300
+        item2.details = "But man, its so nice to be able to blaock out everyone with the noise canceling tech."
+        
+        let item3 = Item(context: context)
+        item3.title = "Tesla Model S"
+        item3.price = 110000
+        item3.details = "Oh man this is a beautiful car. And one day, I willl own it"
+        
+        ad.saveContext()
+        
+    }
     
 
 }
-
-
-
-
-
-
-
-
-
 
 
 
