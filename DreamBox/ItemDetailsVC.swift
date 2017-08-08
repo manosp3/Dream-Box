@@ -21,6 +21,8 @@ class ItemDetailsVC: UIViewController, UIPickerViewDataSource, UIPickerViewDeleg
     
     var stores = [Store]()
     var itemToEdit: Item?
+    
+    //ftiaxnoume ena imagepicker, min ksexaseis ta properties stin arxi!
     var imagePicker: UIImagePickerController!
     
     override func viewDidLoad() {
@@ -33,28 +35,30 @@ class ItemDetailsVC: UIViewController, UIPickerViewDataSource, UIPickerViewDeleg
         storePicker.delegate = self
         storePicker.dataSource = self
         
+        //kai afta gia to image picker
         imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         
         
         //ETSI Dimiourgoume entities sto coredata
-        //        let store = Store(context: context)
-        //        store.name = "Best Buy"
-        //        let store2 = Store(context: context)
-        //        store2.name = "Tesla Dealership"
-        //        let store3 = Store(context: context)
-        //        store3.name = "Frys Electronics"
-        //        let store4 = Store(context: context)
-        //        store4.name = "Target"
-        //        let store5 = Store(context: context)
-        //        store5.name = "Amazon"
-        //        let store6 = Store(context: context)
-        //        store6.name = "K Mart"
-        //meta sozoume ta data mas kai stelnonte monima stin coredata
-        //        ad.saveContext()
+//        let store = Store(context: context)
+//        store.name = "Best Buy"
+//        let store2 = Store(context: context)
+//        store2.name = "Tesla Dealership"
+//        let store3 = Store(context: context)
+//        store3.name = "Frys Electronics"
+//        let store4 = Store(context: context)
+//        store4.name = "Target"
+//        let store5 = Store(context: context)
+//        store5.name = "Amazon"
+//        let store6 = Store(context: context)
+//        store6.name = "K Mart"
+       // meta sozoume ta data mas kai stelnonte monima stin coredata
+//        ad.saveContext()
         
         getStores()
         
+        //an exoume dosi item tote na to fortosei
         if itemToEdit != nil {
             loadItemData()
         }
@@ -112,6 +116,7 @@ class ItemDetailsVC: UIViewController, UIPickerViewDataSource, UIPickerViewDeleg
         let picture = Image(context: context)
         picture.image = thumgImg.image
         
+        //edo ean kanoume edit afto pou valame sa dedomeno tote de ftiaxnei kainourgio item alla ananeonei afto pou eixame idi
         if itemToEdit == nil {
             
             item = Item(context: context)
@@ -165,7 +170,7 @@ class ItemDetailsVC: UIViewController, UIPickerViewDataSource, UIPickerViewDeleg
             detailsField.text = item.details
             thumgImg.image = item.toImage?.image as? UIImage
             
-            
+            //etsi vazoume to store, pernaei ena pros ena ta magazia pou exoume valei mexri na crei afto pou teriazei kai na to apothikefsei
             if let store = item.toStore {
                 
                 var index = 0
@@ -202,6 +207,7 @@ class ItemDetailsVC: UIViewController, UIPickerViewDataSource, UIPickerViewDeleg
         present(imagePicker, animated: true, completion: nil)
     }
     
+    //anagkastiko gia na ftiaksoume to imagepicker
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
         if let img = info[UIImagePickerControllerOriginalImage] as? UIImage {

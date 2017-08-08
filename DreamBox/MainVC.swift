@@ -43,6 +43,8 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
         
     }
     
+    //transfers the item from mainvc to itemsdetailsvc
+    //everytime someone clicks something in my tableview this func is called
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if let objs = controller.fetchedObjects , objs.count > 0 {
@@ -52,16 +54,17 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
         }
     }
     
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "ItemDetailsVC" {
-//            if let destination = segue.destination as? ItemDetailsVC {
-//                if let item = sender as? Item {
-//                    destination.itemToEdit = item
-//                }
-//            }
-//        }
-//        
-//    }
+    //prepei na iparxei afto PRIN tin apopano functin, diloni to segue!
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ItemDetailsVC" {
+            if let destination = segue.destination as? ItemDetailsVC {
+                if let item = sender as? Item {
+                    destination.itemToEdit = item
+                }
+            }
+        }
+        
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //grabing the sections out of controller
@@ -112,7 +115,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
         
         let controller = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
         
-        //SOS gia na ksekinisei na kanei ta update mas i efarmogi mas me to neo nontent
+        //SOS gia na ksekinisei na kanei ta update mas i efarmogi mas me to neo content
         controller.delegate = self
         
         self.controller = controller
@@ -130,12 +133,13 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
         
     }
     
-//    @IBAction func segmentChange(_ sender: Any) {
-//        
-//        attemptFetch()
-//        tableView.reloadData()
-//        
-//    }
+    //afto edo einai to koumpei gia otan patisi allo segment na ginete to sort, an de kanei reload de ginete tpt
+    @IBAction func segmentChange(_ sender: Any) {
+        
+        attemptFetch()
+        tableView.reloadData()
+        
+    }
     
     
     //this when the tableview is ready to update this will start to listen for any changes and will handle it for you
