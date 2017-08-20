@@ -41,20 +41,20 @@ class ItemDetailsVC: UIViewController, UIPickerViewDataSource, UIPickerViewDeleg
         
         
         //ETSI Dimiourgoume entities sto coredata
-//        let store = Store(context: context)
-//        store.name = "Best Buy"
-//        let store2 = Store(context: context)
-//        store2.name = "Tesla Dealership"
-//        let store3 = Store(context: context)
-//        store3.name = "Frys Electronics"
-//        let store4 = Store(context: context)
-//        store4.name = "Target"
-//        let store5 = Store(context: context)
-//        store5.name = "Amazon"
-//        let store6 = Store(context: context)
-//        store6.name = "K Mart"
+        let store = Store(context: context)
+        store.name = "Best Buy"
+        let store2 = Store(context: context)
+        store2.name = "Tesla Dealership"
+        let store3 = Store(context: context)
+        store3.name = "Frys Electronics"
+        let store4 = Store(context: context)
+        store4.name = "Target"
+        let store5 = Store(context: context)
+        store5.name = "Amazon"
+        let store6 = Store(context: context)
+        store6.name = "K Mart"
        // meta sozoume ta data mas kai stelnonte monima stin coredata
-//        ad.saveContext()
+        ad.saveContext()
         
         getStores()
         
